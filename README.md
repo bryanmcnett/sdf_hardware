@@ -10,7 +10,7 @@ Texture Format
 
 For a 3D SDF texture we can store a much smaller "meta texture" in which each block of 8x8x8 texels is encoded as 16 bits: 8 bits of "minimum distance in block" and 8 bits of "maximum distance in block". This is 0.004 bits per texel, and is sufficient information to traverse an SDF much of the time.
 While this is reminiscent of the endpoints of a traditionally block-compressed texture, it would be stored in separate cachelines from any per-texel information, to avoid wasting memory bandwidth on such information when it isn't relevant. Many SDF fetches don't need the precise value of an individual
-texel, unless it is within a known range of values.
+texel, but rather wish to compare it to a known range of values. As with PCF filtering of shadow maps, the comparison can be a part of the fetch instruction itself.
 
 When it is necessary to read per-texel information, since for most texels the value can be predicted from adjacent texels (most texels are "exactly one unit" further away from the surface than their neighbors) a simple predictive decoder in hardware is likely efficient. 
 An 8x8x8 block that holds a flat piece of surface will likely need to encode information for only 25% of the texels, and the rest can be predicted trivially.
