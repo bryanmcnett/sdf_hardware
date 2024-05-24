@@ -17,12 +17,14 @@ existing texture hardware formats.
 
 Face Centered Cubic Volume Textures
 
-![Basic Cubic vs. Face Centered Cubic](https://wisc.pb.unizin.org/app/uploads/sites/293/2019/07/CNX_Chem_10_06_CubUntCll.png)
+![Primitive Cubic vs. Face Centered Cubic](https://wisc.pb.unizin.org/app/uploads/sites/293/2019/07/CNX_Chem_10_06_CubUntCll.png)
 
 The Nintendo 64 game console did not tap the 4 nearest samples in a 2D grid to *bilinearly* filter a 2D texture, as contemporary hardware does. Rather, it tapped the 3 nearest samples, and *linearly* blended among them.
 For a given dimension N, a bilinear filter requires pow(2,N) taps, and a linear filter requires N+1 taps. In ten dimensions bilinear would require 1024 taps, and linear 11. So, any hardware that aims to sample a high 
 dimensional function would be under great pressure to use linear filtering, rather than bilinear filtering.
 
-An N64 texture can be conceptualized as being made of tiny triangular cells, rather than the square cells of contemporary hardware texture. In 3D such a texture would be made of rhombic dodecahedra, rather than cubes.
+An N64 texture can be conceptualized as being made of tiny triangular cells, rather than the square cells of contemporary hardware texture. In 3D such a texture would be made of rhombic dodecahedra, in a Face Centered
+Cubic lattice (see above image) rather than the Primitive Cubic lattice of contemporary hardware.
+
 An SDF encoded as a 3D texture would require 4 taps with a linear filter, rather than 8 taps with a bilinear filter. The pipeline to blend 1/2 as many taps would require 1 less bit of internal precision, and would 
 process 1/2 as much data at any instant. This may present opportunities to increase the degree of parallelism by a factor of 2.
