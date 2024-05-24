@@ -11,11 +11,12 @@ Texture Format
 For any given mip map of an SDF texture, the delta in value between adjacent texels has a very limited range across the entire image, which at the scale of one texel per distance unit is [0..1], and is about twice what it was in the next-bigger mip map. As this limited range is constant across the image,
 it is a waste of bits to also independently encode it into each texture block. However, existing texture formats must all do this.
 
-Likewise, if mip-map filtering is assumed then any cube of NxNxN texels in which all texels are either inside or outside the SDF surface, need not encode any information, other than the fact that all texels are inside or outside the surface. For example for a 3D SDF texture we can store a much smaller "meta texture"
-in which each cube of 8x8x8 texels is encoded as two bits (00: all inside, 01: all outside, 02: mixed). That is 0.004 bits per texel. If all of our filter taps are determined to be all-inside or all-outside, then the result of our texture fetch is either "inside" or "outside" with no need to read individual texels.
+If mip-map filtering is assumed then any block of NxNxN texels in which all texels are either inside or outside the SDF surface, need not encode any information, other than the fact that all texels are inside or outside the surface. For example for a 3D SDF texture we can store a much smaller "meta texture"
+in which each block of 8x8x8 texels is encoded as two bits (00: all inside, 01: all outside, 02: mixed). That is 0.004 bits per texel, or 99.6% compression. If all of our filter taps are determined to be all-inside or all-outside, then the result of our texture fetch is either "inside" or "outside" with no need 
+to read individual texels.
 
-When it is necessary to read individual texels, because the 2-bit 8x8x8 cube fetch returns "mixed" results, the individual texels do not benefit from hardware texture block compression: there are no "endpoints" because each 8x8x8 cube will encode the same range of values. Since for most texels the value can be 
-predicted from adjacent texels (most texels are "one unit" further away from the surface than their neighbors) a simple predictive encoding is likely far more efficient. 
+When it is necessary to read individual texels, because the 2-bit 8x8x8 cube fetch returns "mixed" results, the individual texels do not benefit from hardware texture block compression: there is no need to store block "endpoints" because each 8x8x8 block will encode the same range of values. Since for most 
+texels the value can be predicted from adjacent texels (most texels are "one unit" further away from the surface than their neighbors) a simple predictive decoder in hardware is likely far more efficient. 
 
 Face Centered Cubic Volume Textures
 
