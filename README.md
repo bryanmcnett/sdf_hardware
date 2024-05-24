@@ -17,7 +17,7 @@ existing texture hardware formats.
 
 Face Centered Cubic Volume Textures
 
-[img https://wisc.pb.unizin.org/app/uploads/sites/293/2019/07/CNX_Chem_10_06_CubUntCll.png]
+![Basic Cubic vs. Face Centered Cubic](https://wisc.pb.unizin.org/app/uploads/sites/293/2019/07/CNX_Chem_10_06_CubUntCll.png)
 
 The Nintendo 64 game console did not tap the 4 nearest samples in a 2D grid to *bilinearly* filter a 2D texture, as contemporary hardware does. Rather, it tapped the 3 nearest samples, and *linearly* blended among them.
 For a given dimension N, a bilinear filter requires pow(2,N) taps, and a linear filter requires N+1 taps. In ten dimensions bilinear would require 1024 taps, and linear 11. So, any hardware that aims to sample a high 
