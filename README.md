@@ -26,5 +26,8 @@ dimensional function would be under great pressure to use linear filtering, rath
 An N64 texture can be conceptualized as being made of tiny triangular cells, rather than the square cells of contemporary hardware texture. In 3D such a texture would be made of rhombic dodecahedra, in a Face Centered
 Cubic lattice (see above image) rather than the Primitive Cubic lattice of contemporary hardware.
 
+![N64 texture sample grid](https://www.theedkins.co.uk/jo/tess/triangle10.gif)
+![Contemporary texture sample grid](https://mammothmemory.net/images/user/base/Maths/Geometry/Tessellation/a-square-is-a-shape-that-can-be-tessellated.401ad26.jpg)
+
 An SDF encoded as a 3D texture would require 4 taps with a linear filter, rather than 8 taps with a bilinear filter. The pipeline to blend 1/2 as many taps would require 1 less bit of internal precision, and would 
 process 1/2 as much data at any instant. This may present opportunities to increase the degree of parallelism by a factor of 2.
