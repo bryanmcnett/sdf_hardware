@@ -8,13 +8,10 @@ In this article we explore possible changes to GPU hardware specifically for the
 
 Texture Format
 
-If mip-map filtering is assumed then any block of NxNxN texels in which all texels are either inside or outside the SDF surface, need not encode any information, other than the fact that all texels are inside or outside the surface. For example for a 3D SDF texture we can store a much smaller "meta texture"
-in which each block of 8x8x8 texels is encoded as two bits (00: all inside, 01: all outside, 02: mixed). That is 0.004 bits per texel, or 99.6% compression. If all of our filter taps are determined to be all-inside or all-outside, then the result of our texture fetch is either "inside" or "outside" with no need 
-to read individual texels.
+For a 3D SDF texture we can store a much smaller "meta texture" in which each block of 8x8x8 texels is encoded as 16 bits: 8 bits of "minimum distance in block" and 8 bits of "maximum distance in block". This is 0.004 bits per pixel, and is sufficient information to traverse an SDF much of the time.
+While this is reminiscent of the endpoints of a traditionally block-compressed texture, it would be stored in separate cachelines from any per-texel information, to avoid wasting memory bandwidth on such information when it isn't relevant.
 
-When it is necessary to read individual texels, because the 0.004 bit fetch returns "mixed" results, the individual texels do not benefit from traditional hardware texture block compression: there is no need to store block "endpoints" because each 8x8x8 block will encode the same range of values. Since for most 
-texels the value can be predicted from adjacent texels (most texels are "exactly one unit" further away from the surface than their neighbors) a simple predictive decoder in hardware is likely far more efficient. An 8x8x8 block that holds a flat bit of surface will likely need to encode information for only
-25% of the texels, and the rest can be predicted trivially.
+Since for most texels the value can be predicted from adjacent texels (most texels are "exactly one unit" further away from the surface than their neighbors) a simple predictive decoder in hardware is likely efficient. An 8x8x8 block that holds a flat piece of surface will likely need to encode information for only 25% of the texels, and the rest can be predicted trivially.
 
 Face Centered Cubic Volume Textures
 
