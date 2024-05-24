@@ -15,7 +15,7 @@ If mip-map filtering is assumed then any block of NxNxN texels in which all texe
 in which each block of 8x8x8 texels is encoded as two bits (00: all inside, 01: all outside, 02: mixed). That is 0.004 bits per texel, or 99.6% compression. If all of our filter taps are determined to be all-inside or all-outside, then the result of our texture fetch is either "inside" or "outside" with no need 
 to read individual texels.
 
-When it is necessary to read individual texels, because the 2-bit 8x8x8 cube fetch returns "mixed" results, the individual texels do not benefit from hardware texture block compression: there is no need to store block "endpoints" because each 8x8x8 block will encode the same range of values. Since for most 
+When it is necessary to read individual texels, because the 2-bit 8x8x8 cube fetch returns "mixed" results, the individual texels do not benefit from traditional hardware texture block compression: there is no need to store block "endpoints" because each 8x8x8 block will encode the same range of values. Since for most 
 texels the value can be predicted from adjacent texels (most texels are "one unit" further away from the surface than their neighbors) a simple predictive decoder in hardware is likely far more efficient. 
 
 Face Centered Cubic Volume Textures
