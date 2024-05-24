@@ -1,4 +1,4 @@
-GPU Hardware For Signed Distance Fields
+Modifications to GPU Hardware to benefit Signed Distance Fields
 
 The Signed Distance Field (SDF) is a fundamental primitive used in computer graphics, which has the nice property that it encodes a surface in 3D space, which regardless of topological complexity can be filtered efficiently for automatic level-of-detail by massively parallel hardware, much as a texture map can.
 
